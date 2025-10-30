@@ -17,6 +17,9 @@ A meme-style, non-custodial perpetual futures trading website on Solana, powered
 - **Meme-Style UI** - Fun, engaging interface with DaisyUI dark theme
 - **Risk Warnings** - Clear Terms of Service and trading risk disclosures
 
+### 🚀 New Here?
+**Check out the [⚡ QUICKSTART.md](./QUICKSTART.md) for a 5-minute getting started guide!**
+
 ### Upcoming Features 🚧
 - Multiple market pairs expansion
 - Position management (close, modify)
