@@ -27,6 +27,7 @@ function TradePanel() {
     if (publicKey && connection && signTransaction && signAllTransactions && !driftClient) {
       initializeDrift()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publicKey, connection, signTransaction, signAllTransactions])
 
   const initializeDrift = async () => {
