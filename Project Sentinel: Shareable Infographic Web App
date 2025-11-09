@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Sentinel: The Future of Crypto Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #10101A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(0, 245, 212, 0.7), 0 0 20px rgba(0, 245, 212, 0.5);
+        }
+        .card {
+            background-color: #1A1A2E;
+            border: 1px solid #33334A;
+        }
+        .number-stat {
+            font-weight: 900;
+            font-size: 3rem;
+            line-height: 1;
+            color: #00F5D4;
+        }
+        .flow-arrow {
+            color: #9B5DE5;
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .flow-box {
+            border: 2px solid #9B5DE5;
+            background-color: rgba(155, 93, 229, 0.1);
+            color: #FEE440;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #F15BB5;
+            border: 2px solid #10101A;
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-2">PROJECT SENTINEL</h1>
+            <h2 class="text-xl md:text-2xl font-semibold text-glow">The Blueprint for 2025's Crypto Intelligence Layer</h2>
+        </header>
+
+        <main class="space-y-12">
+            
+            <section id="market-problem">
+                <div class="text-center mb-8">
+                    <h3 class="text-3xl font-bold text-white">The 2025 Market Challenge: Context Collapse</h3>
+                    <p class="text-lg text-gray-400 max-w-3xl mx-auto mt-2">The crypto market isn't suffering from a lack of data, but a collapse of context. Value is fragmented across countless chains and assets, making effective decision-making nearly impossible with legacy tools.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+                    <div class="card rounded-xl p-6">
+                        <p class="number-stat">100+</p>
+                        <h4 class="font-semibold text-xl mt-2">Active Blockchains</h4>
+                        <p class="text-gray-400 mt-1">Value and opportunity are spread across a fragmented multi-chain landscape.</p>
+                    </div>
+                    <div class="card rounded-xl p-6">
+                        <p class="number-stat">1M+</p>
+                        <h4 class="font-semibold text-xl mt-2">Unique Crypto Assets</h4>
+                        <p class="text-gray-400 mt-1">From L1s and DeFi tokens to RWAs, asset diversity creates complexity.</p>
+                    </div>
+                    <div class="card rounded-xl p-6 md:col-span-2 lg:col-span-1">
+                        <p class="number-stat">85%</p>
+                        <h4 class="font-semibold text-xl mt-2">Mobile-First Traders</h4>
+                        <p class="text-gray-400 mt-1">The primary user demands instant, on-the-go intelligence and execution.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="solution">
+                 <div class="text-center mb-8">
+                    <h3 class="text-3xl font-bold text-white">The Solution: An Actionable Intelligence Layer</h3>
+                    <p class="text-lg text-gray-400 max-w-3xl mx-auto mt-2">Project Sentinel is not another alert app. It's a cognitive enhancement tool that synthesizes market-wide data into a single, trusted source of truth, moving beyond reactive alerts to deliver proactive, explainable alpha.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card rounded-xl p-6 text-center">
+                        <div class="text-4xl mb-3">🔮</div>
+                        <h4 class="text-xl font-bold text-white">Predictive & Proactive</h4>
+                        <p class="text-gray-400 mt-2">Anticipates market movements by fusing on-chain, off-chain, and market data.</p>
+                    </div>
+                    <div class="card rounded-xl p-6 text-center">
+                        <div class="text-4xl mb-3">💡</div>
+                        <h4 class="text-xl font-bold text-white">Explainable & Transparent</h4>
+                        <p class="text-gray-400 mt-2">Builds trust by revealing the "Why?" behind every alert, citing the source data.</p>
+                    </div>
+                    <div class="card rounded-xl p-6 text-center">
+                        <div class="text-4xl mb-3">💬</div>
+                        <h4 class="text-xl font-bold text-white">Conversational & Accessible</h4>
+                        <p class="text-gray-400 mt-2">Democratizes strategy creation with a natural language rule engine.</p>
+                    </div>
+                    <div class="card rounded-xl p-6 text-center">
+                        <div class="text-4xl mb-3">🌐</div>
+                        <h4 class="text-xl font-bold text-white">Comprehensive & Unbiased</h4>
+                        <p class="text-gray-400 mt-2">Scans the entire crypto landscape, free from the bias of any single exchange.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="competition">
+                <div class="text-center mb-8">
+                    <h3 class="text-3xl font-bold text-white">Carving the "White Space" in a Crowded Market</h3>
+                    <p class="text-lg text-gray-400 max-w-3xl mx-auto mt-2">Existing tools are powerful but siloed. Automation platforms lack intelligence, intelligence platforms lack accessibility, and exchange AIs are fundamentally biased. Sentinel fills the critical gap.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card rounded-xl p-6">
+                        <h4 class="font-bold text-xl mb-4 text-white">Competitor Landscape Analysis</h4>
+                        <div class="chart-container">
+                            <canvas id="competitorChart"></canvas>
+                        </div>
+                         <p class="text-gray-400 mt-4 text-sm">This chart visualizes the core focus of competitor categories. While others specialize in execution, high-end data, or convenience, they leave a gap in providing proactive, unbiased, and explainable intelligence—the "white space" Sentinel is designed to capture.</p>
+                    </div>
+                    <div class="card rounded-xl p-6">
+                        <h4 class="font-bold text-xl mb-4 text-white">Intelligence API Cost of Goods Sold (COGS)</h4>
+                        <div class="chart-container">
+                            <canvas id="apiCostChart"></canvas>
+                        </div>
+                        <p class="text-gray-400 mt-4 text-sm">Delivering true alpha requires fusing data from premium, institutional-grade providers. This significant and recurring investment in data is a core part of Sentinel's value proposition and a barrier to entry for casual competitors.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="technology">
+                <div class="text-center mb-8">
+                    <h3 class="text-3xl font-bold text-white">The Core Technology: The Explainable AI Engine</h3>
+                    <p class="text-lg text-gray-400 max-w-3xl mx-auto mt-2">Sentinel's defensible moat is its unique AI architecture. It fuses disparate data streams, processes them through a hybrid predictive model, and generates alerts with transparent, data-backed reasoning.</p>
+                </div>
+                <div class="card rounded-xl p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="w-full md:w-1/3 space-y-4 text-center">
+                            <h4 class="font-bold text-lg text-white">1. Data Fusion</h4>
+                            <div class="p-3 rounded-lg border-2 border-dashed border-gray-600">On-Chain Data (Nansen, Glassnode)</div>
+                            <div class="p-3 rounded-lg border-2 border-dashed border-gray-600">Market Data (Exchange WebSockets)</div>
+                            <div class="p-3 rounded-lg border-2 border-dashed border-gray-600">Social & News APIs</div>
+                        </div>
+                        
+                        <div class="flow-arrow transform md:rotate-0 rotate-90">➔</div>
+
+                        <div class="w-full md:w-1/3 text-center">
+                             <h4 class="font-bold text-lg text-white">2. Hybrid AI Model</h4>
+                             <div class="p-4 rounded-lg flow-box">
+                                <p class="font-bold">CNN-Transformer</p>
+                                <p class="text-sm mt-1 text-gray-300">CNNs extract short-term patterns, which Transformers use to model long-range, cross-domain correlations.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flow-arrow transform md:rotate-0 rotate-90">➔</div>
+
+                        <div class="w-full md:w-1/3 text-center">
+                             <h4 class="font-bold text-lg text-white">3. Actionable Output</h4>
+                             <div class="p-4 rounded-lg bg-green-500/20 border-2 border-green-400">
+                                <p class="font-bold text-green-300">Explainable Alert</p>
+                                <p class="text-sm mt-1">"SOL surge likely. <span class="font-semibold text-white">Why?</span> Large whale transfers + Spike in social sentiment + Falling exchange reserves."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="roadmap">
+                <div class="text-center mb-8">
+                    <h3 class="text-3xl font-bold text-white">Future-Proofing: The Path to Decentralization</h3>
+                    <p class="text-lg text-gray-400 max-w-3xl mx-auto mt-2">Project Sentinel is designed to evolve. The long-term vision transforms the platform from a centralized SaaS tool into a decentralized asset management marketplace, creating a scalable, community-driven ecosystem.</p>
+                </div>
+                <div class="card rounded-xl p-6 md:p-8">
+                   <div class="relative pl-5 border-l-2 border-gray-600 space-y-12">
+                       <div class="relative timeline-item">
+                           <h4 class="text-xl font-bold text-white">Stage 1: Creation & Intelligence (Launch)</h4>
+                           <p class="text-gray-400 mt-1">Launch as a premier, unbiased intelligence layer. The conversational interface empowers users to create and test strategies with the help of the explainable AI engine.</p>
+                       </div>
+                       <div class="relative timeline-item">
+                           <h4 class="text-xl font-bold text-white">Stage 2: Optimization & Refinement (Year 2)</h4>
+                           <p class="text-gray-400 mt-1">Implement privacy-preserving Federated Learning. The platform's models improve based on the collective (anonymous) actions of all users, creating a powerful network effect.</p>
+                       </div>
+                       <div class="relative timeline-item">
+                           <h4 class="text-xl font-bold text-white">Stage 3: Monetization & Decentralization (Year 3+)</h4>
+                           <p class="text-gray-400 mt-1">Integrate with asset management protocols (e.g., Enzyme). Users can tokenize their proven strategies, creating on-chain investment vaults for others to invest in, earning fees and transitioning Sentinel to a decentralized marketplace.</p>
+                       </div>
+                   </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center mt-16 text-gray-500 text-sm">
+            <p>Infographic based on the "Project Sentinel: A Strategic Analysis and Roadmap" research document.</p>
+            <p>All data is illustrative and derived from the source material for demonstration purposes.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const vibrantPalette = ['#00F5D4', '#9B5DE5', '#F15BB5', '#FEE440', '#00CCBF'];
+            const textColor = '#E5E7EB';
+
+            const wrapLabel = (label) => {
+                const maxLength = 16;
+                if (typeof label !== 'string' || label.length <= maxLength) {
+                    return label;
+                }
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + word).length > maxLength) {
+                        lines.push(currentLine.trim());
+                        currentLine = '';
+                    }
+                    currentLine += word + ' ';
+                }
+                lines.push(currentLine.trim());
+                return lines;
+            };
+            
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                  return label.join(' ');
+                } else {
+                  return label;
+                }
+            };
+            
+            const defaultChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: textColor,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        },
+                        backgroundColor: '#1A1A2E',
+                        titleColor: textColor,
+                        bodyColor: textColor,
+                        borderColor: '#33334A',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: textColor, font: { size: 12 } },
+                        grid: { color: 'rgba(229, 231, 235, 0.1)' }
+                    },
+                    x: {
+                        ticks: { color: textColor, font: { size: 12 }, maxRotation: 0, minRotation: 0 },
+                        grid: { display: false }
+                    }
+                }
+            };
+            
+            const competitorCtx = document.getElementById('competitorChart').getContext('2d');
+            const competitorData = {
+                labels: ['Automation Bots', 'High-End Intelligence', 'Exchange AIs', 'AI Signal Providers', 'Project Sentinel'],
+                datasets: [
+                    {
+                        label: 'Execution',
+                        data: [9, 2, 7, 3, 5],
+                        backgroundColor: vibrantPalette[0]
+                    },
+                    {
+                        label: 'Intelligence',
+                        data: [3, 9, 6, 8, 10],
+                        backgroundColor: vibrantPalette[1]
+                    },
+                    {
+                        label: 'Unbiased',
+                        data: [8, 8, 1, 7, 10],
+                        backgroundColor: vibrantPalette[2]
+                    },
+                     {
+                        label: 'Explainability',
+                        data: [2, 3, 2, 2, 10],
+                        backgroundColor: vibrantPalette[3]
+                    }
+                ]
+            };
+            new Chart(competitorCtx, {
+                type: 'bar',
+                data: competitorData,
+                options: {
+                    ...defaultChartOptions,
+                    scales: {
+                        x: { stacked: true, ticks: { color: textColor, font: { size: 12 } }, grid: { display: false } },
+                        y: { stacked: true, ticks: { color: textColor, font: { size: 12 } }, grid: { color: 'rgba(229, 231, 235, 0.1)' }, max: 40 }
+                    },
+                    plugins: { ...defaultChartOptions.plugins, tooltip: { ...defaultChartOptions.plugins.tooltip, mode: 'index', intersect: false } }
+                }
+            });
+
+            const apiCostCtx = document.getElementById('apiCostChart').getContext('2d');
+            const apiCostData = {
+                labels: [wrapLabel('Dune Analytics API'), wrapLabel('Nansen Professional'), wrapLabel('Glassnode Advanced')],
+                datasets: [{
+                    label: 'Estimated Monthly API Cost ($)',
+                    data: [849, 999, 833],
+                    backgroundColor: [vibrantPalette[0], vibrantPalette[1], vibrantPalette[2]],
+                    borderColor: '#1A1A2E',
+                    borderWidth: 2
+                }]
+            };
+            new Chart(apiCostCtx, {
+                type: 'doughnut',
+                data: apiCostData,
+                options: {
+                    ...defaultChartOptions,
+                    scales: {
+                        y: { display: false },
+                        x: { display: false }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
