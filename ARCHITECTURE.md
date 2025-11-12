@@ -2,6 +2,8 @@
 
 This document provides a detailed technical overview of the Bang Perp Exchange architecture.
 
+> **Note**: For architectural decisions and rationale, especially divergences from organization standards, see the [Architecture Decision Records (ADR)](./docs/adr-backlog.md).
+
 ## 📋 Table of Contents
 
 1. [System Overview](#system-overview)
@@ -11,6 +13,7 @@ This document provides a detailed technical overview of the Bang Perp Exchange a
 5. [Security Architecture](#security-architecture)
 6. [Integration Points](#integration-points)
 7. [Deployment Architecture](#deployment-architecture)
+8. [Architecture Decision Records](#architecture-decision-records)
 
 ## System Overview
 
@@ -477,6 +480,40 @@ Current architecture scales well because:
 - RPC endpoint rate limits → Use premium RPC
 - Browser memory → Implement cleanup
 - Bundle size → Code splitting
+
+## Architecture Decision Records
+
+Key architectural decisions for this project are documented in Architecture Decision Records (ADRs). These records provide context, rationale, and consequences for important design choices, particularly where they diverge from organization-wide standards.
+
+### Why We Document Architectural Decisions
+
+ADRs help:
+- Future maintainers understand the "why" behind architectural choices
+- Team members align on technical direction
+- Stakeholders track compliance and divergences from organizational standards
+- Everyone learn from past decisions
+
+### Key Architectural Decisions
+
+This project makes several intentional divergences from typical organization standards:
+
+1. **Blockchain Storage** ([ADR-0001](./docs/adr/0001-use-blockchain-storage-instead-of-database.md))
+   - **Org Standard**: PostgreSQL relational database
+   - **This Project**: Solana blockchain storage via smart contracts
+   - **Why**: Non-custodial architecture, no backend needed
+
+2. **Frontend-Only Architecture** ([ADR-0002](./docs/adr/0002-frontend-only-architecture.md))
+   - **Org Standard**: Three-tier architecture with backend API
+   - **This Project**: Static SPA with direct blockchain interaction
+   - **Why**: Decentralization, cost reduction, standard dApp pattern
+
+### Accessing ADRs
+
+- **ADR Backlog**: [docs/adr-backlog.md](./docs/adr-backlog.md)
+- **All ADRs**: [docs/adr/](./docs/adr/)
+- **ADR Template**: [docs/adr/0000-template.md](./docs/adr/0000-template.md)
+
+For questions about architectural decisions or to propose new ADRs, see the [ADR Backlog](./docs/adr-backlog.md).
 
 ## Conclusion
 

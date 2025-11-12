@@ -248,6 +248,7 @@ Before deploying to mainnet:
 ## 📚 Resources
 
 ### Documentation
+- [Architecture Decision Records (ADR)](./docs/adr-backlog.md) - Architectural decisions and org standards alignment
 - [Drift Protocol Docs](https://docs.drift.trade/)
 - [Drift SDK](https://www.npmjs.com/package/@drift-labs/sdk)
 - [Solana Wallet Adapter](https://github.com/solana-labs/wallet-adapter)
