@@ -286,13 +286,27 @@ MIT License - see LICENSE file for details
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please read our contribution guidelines before submitting a Pull Request.
+
+- **[Contributing Guide](./CONTRIBUTING.md)** - Development workflow, code standards, and PR guidelines
+- **[Code of Conduct](./CODE_OF_CONDUCT.md)** - Community standards and expectations
+- **[Security Policy](./SECURITY.md)** - Reporting vulnerabilities and security best practices
+
+### Quick Contribution Steps
 
 1. Fork the project
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## 📚 Documentation
+
+- **[Documentation Index](./DOCUMENTATION_INDEX.md)** - Complete catalog of all project documentation
+- **[Architecture Guide](./ARCHITECTURE.md)** - Technical architecture deep dive
+- **[Deployment Guide](./DEPLOYMENT_GUIDE.md)** - Deploy to production
+- **[Project Summary](./PROJECT_SUMMARY.md)** - Project status and achievements
+- **[Checklist](./CHECKLIST.md)** - Setup and testing verification
 
 ## 📞 Support
 
