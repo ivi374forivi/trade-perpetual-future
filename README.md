@@ -16,6 +16,7 @@ None-Custodial perpetual futures trading website on blockchain, powered by Drift
 - **Non-Custodial Architecture** - Users control their funds and sign all transactions
 - **Meme-Style UI** - Fun, engaging interface with DaisyUI dark theme
 - **Risk Warnings** - Clear Terms of Service and trading risk disclosures
+- **🔮 Soothsayer Predictions** - AI-powered insights on society, culture, hot issues, and sporting events
 
 ### 🚀 New Here?
 **Check out the [⚡ QUICKSTART.md](./QUICKSTART.md) for a 5-minute getting started guide!**
@@ -143,7 +144,8 @@ trading-perpetual-futures/
 │   ├── vite-env.d.ts            # TypeScript environment types
 │   └── components/
 │       ├── TradePanel.tsx       # Trading interface with Drift integration
-│       └── RiskWarning.tsx      # Terms of Service and risk warnings
+│       ├── RiskWarning.tsx      # Terms of Service and risk warnings
+│       └── Soothsayer.tsx       # Predictive analysis on society, culture, hot issues & sports
 ├── index.html                   # HTML entry point
 ├── package.json                 # Dependencies and scripts
 ├── vite.config.ts               # Vite configuration with polyfills

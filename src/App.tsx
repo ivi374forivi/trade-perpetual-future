@@ -1,6 +1,7 @@
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import TradePanel from './components/TradePanel'
 import RiskWarning from './components/RiskWarning'
+import Soothsayer from './components/Soothsayer'
 
 function App() {
   return (
@@ -38,6 +39,11 @@ function App() {
 
         {/* Risk Warning */}
         <RiskWarning />
+
+        {/* Soothsayer Predictive Analysis */}
+        <div className="mb-8">
+          <Soothsayer />
+        </div>
 
         {/* Trading Panel */}
         <TradePanel />
