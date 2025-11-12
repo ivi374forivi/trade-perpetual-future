@@ -1,8 +1,79 @@
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import TradePanel from './components/TradePanel'
-import RiskWarning from './components/RiskWarning'
+import { useState, useEffect } from 'react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { DriftClient, User } from '@drift-labs/sdk';
+import TradePanel from './components/TradePanel';
+import RiskWarning from './components/RiskWarning';
+import PositionPanel from './components/PositionPanel';
+import DashboardPanel from './components/DashboardPanel';
 
 function App() {
+  const { connection } = useConnection();
+  const { publicKey, signTransaction, signAllTransactions } = useWallet();
+  const [driftClient, setDriftClient] = useState<DriftClient | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [isInitializing, setIsInitializing] = useState(false);
+  const [status, setStatus] = useState('');
+  const [markets, setMarkets] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (publicKey && connection && signTransaction && signAllTransactions && !driftClient) {
+      initializeDrift();
+    }
+  }, [publicKey, connection, signTransaction, signAllTransactions]);
+
+  const initializeDrift = async () => {
+    if (!publicKey || !signTransaction || !signAllTransactions) return;
+
+    setIsInitializing(true);
+    setStatus('Initializing Drift Protocol...');
+
+    try {
+      const driftEnv = import.meta.env.VITE_DRIFT_ENV || 'devnet';
+      const client = new DriftClient({
+        connection,
+        wallet: {
+          publicKey,
+          signTransaction,
+          signAllTransactions,
+        },
+        env: driftEnv as 'devnet' | 'mainnet-beta',
+      });
+
+      await client.subscribe();
+      setDriftClient(client);
+
+      const perpMarkets = client.getPerpMarketAccounts();
+      const spotMarkets = client.getSpotMarketAccounts();
+      setMarkets([...perpMarkets, ...spotMarkets]);
+
+      const userAccountPublicKey = await client.getUserAccountPublicKey();
+      const userAccountExists = await connection.getAccountInfo(userAccountPublicKey);
+
+      if (!userAccountExists) {
+        setStatus('⚠️ Drift user account not found. Please create one at drift.trade first.');
+        setIsInitializing(false);
+        return;
+      }
+
+      const driftUser = new User({
+        driftClient: client,
+        userAccountPublicKey,
+      });
+
+      await driftUser.subscribe();
+      setUser(driftUser);
+
+      setStatus('✅ Connected to Drift Protocol!');
+      setTimeout(() => setStatus(''), 3000);
+    } catch (error) {
+      console.error('Error initializing Drift:', error);
+      setStatus(`❌ Error: ${error instanceof Error ? error.message : 'Failed to initialize'}`);
+    } finally {
+      setIsInitializing(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-base-200">
       {/* Header */}
@@ -39,8 +110,14 @@ function App() {
         {/* Risk Warning */}
         <RiskWarning />
 
+        {/* Dashboard Panel */}
+        <DashboardPanel user={user} />
+
         {/* Trading Panel */}
-        <TradePanel />
+        <TradePanel driftClient={driftClient} user={user} isInitializing={isInitializing} status={status} markets={markets} />
+
+        {/* Position Panel */}
+        <PositionPanel user={user} driftClient={driftClient} markets={markets} />
 
         {/* Footer */}
         <footer className="footer footer-center p-10 text-base-content mt-16">
@@ -59,7 +136,7 @@ function App() {
         </footer>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

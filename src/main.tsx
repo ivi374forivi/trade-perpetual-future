@@ -5,7 +5,7 @@ import './index.css'
 
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
-import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
+import { PhantomWalletAdapter, SolflareWalletAdapter, UnsafeBurnerWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { clusterApiUrl } from '@solana/web3.js'
 
 // Import wallet adapter CSS
@@ -18,6 +18,7 @@ const endpoint = import.meta.env.VITE_RPC_ENDPOINT || clusterApiUrl('devnet')
 const wallets = [
   new PhantomWalletAdapter(),
   new SolflareWalletAdapter(),
+  new UnsafeBurnerWalletAdapter(),
 ]
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
