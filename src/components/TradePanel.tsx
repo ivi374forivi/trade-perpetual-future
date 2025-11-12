@@ -1,131 +1,57 @@
-import { useState, useEffect } from 'react'
-import { useConnection, useWallet } from '@solana/wallet-adapter-react'
-import { DriftClient, MarketType, PositionDirection, User, BN } from '@drift-labs/sdk'
+import { useState } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { DriftClient, MarketType, PositionDirection, User, BN } from '@drift-labs/sdk';
+import { markets } from '../utils/markets';
 
-function TradePanel() {
-  const { connection } = useConnection()
-  const { publicKey, signTransaction, signAllTransactions } = useWallet()
-  
-  const [driftClient, setDriftClient] = useState<DriftClient | null>(null)
-  const [user, setUser] = useState<User | null>(null)
-  const [isInitializing, setIsInitializing] = useState(false)
-  const [amount, setAmount] = useState('')
-  const [leverage, setLeverage] = useState('5')
-  const [loading, setLoading] = useState(false)
-  const [status, setStatus] = useState('')
-  const [selectedMarket, setSelectedMarket] = useState(0) // 0 = SOL-PERP, 1 = BTC-PERP, etc.
+interface TradePanelProps {
+  driftClient: DriftClient | null;
+  user: User | null;
+  isInitializing: boolean;
+  status: string;
+}
 
-  // Market information
-  const markets = [
-    { name: 'SOL-PERP', index: 0, symbol: 'SOL' },
-    { name: 'BTC-PERP', index: 1, symbol: 'BTC' },
-    { name: 'ETH-PERP', index: 2, symbol: 'ETH' },
-  ]
-
-  // Initialize Drift Client when wallet connects
-  // Note: driftClient is intentionally excluded from deps to prevent re-initialization loop
-  // This effect should only run when wallet connection changes
-  useEffect(() => {
-    if (publicKey && connection && signTransaction && signAllTransactions && !driftClient) {
-      initializeDrift()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [publicKey, connection, signTransaction, signAllTransactions])
-
-  const initializeDrift = async () => {
-    if (!publicKey || !signTransaction || !signAllTransactions) return
-    
-    setIsInitializing(true)
-    setStatus('Initializing Drift Protocol...')
-    
-    try {
-      // Get environment from .env
-      const driftEnv = import.meta.env.VITE_DRIFT_ENV || 'devnet'
-      
-      // Initialize Drift Client
-      const client = new DriftClient({
-        connection,
-        wallet: {
-          publicKey,
-          signTransaction,
-          signAllTransactions,
-        },
-        env: driftEnv as 'devnet' | 'mainnet-beta',
-      })
-
-      await client.subscribe()
-      setDriftClient(client)
-      
-      // Initialize or get user account
-      const userAccountPublicKey = await client.getUserAccountPublicKey()
-      const userAccountExists = await connection.getAccountInfo(userAccountPublicKey)
-      
-      if (!userAccountExists) {
-        setStatus('⚠️ Drift user account not found. Please create one at drift.trade first.')
-        setIsInitializing(false)
-        return
-      }
-      
-      const driftUser = new User({
-        driftClient: client,
-        userAccountPublicKey,
-      })
-      
-      await driftUser.subscribe()
-      setUser(driftUser)
-      
-      setStatus('✅ Connected to Drift Protocol!')
-      setTimeout(() => setStatus(''), 3000)
-    } catch (error) {
-      console.error('Error initializing Drift:', error)
-      setStatus(`❌ Error: ${error instanceof Error ? error.message : 'Failed to initialize'}`)
-    } finally {
-      setIsInitializing(false)
-    }
-  }
+function TradePanel({ driftClient, user, isInitializing, status: appStatus }: TradePanelProps) {
+  const { publicKey } = useWallet();
+  const [amount, setAmount] = useState('');
+  const [leverage, setLeverage] = useState('5');
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState('');
+  const [selectedMarket, setSelectedMarket] = useState(0);
 
   const openPosition = async (direction: PositionDirection) => {
     if (!driftClient || !user || !amount) {
-      setStatus('Please connect wallet and enter amount')
-      return
+      setStatus('Please connect wallet and enter amount');
+      return;
     }
 
-    setLoading(true)
-    const directionText = direction === PositionDirection.LONG ? 'LONG' : 'SHORT'
-    setStatus(`Opening ${directionText} position...`)
+    setLoading(true);
+    const directionText = direction === PositionDirection.LONG ? 'LONG' : 'SHORT';
+    setStatus(`Opening ${directionText} position...`);
 
     try {
-      // Convert amount to base units (assumes USDC, 6 decimals)
-      const baseAmount = new BN(parseFloat(amount) * 1_000_000)
-      
-      // Calculate size based on leverage
-      const leverageMultiplier = parseFloat(leverage)
-      const positionSize = new BN(baseAmount.toNumber() * leverageMultiplier)
+      const baseAmount = new BN(parseFloat(amount) * 1_000_000);
+      const leverageMultiplier = parseFloat(leverage);
+      const positionSize = new BN(baseAmount.toNumber() * leverageMultiplier);
+      const marketIndex = markets[selectedMarket].index;
 
-      // Place market order to open position
-      const marketIndex = markets[selectedMarket].index
       const txSig = await driftClient.placeAndTakePerpOrder({
-        orderType: 0, // Market order
+        orderType: 0,
         marketIndex,
         direction,
         baseAssetAmount: positionSize,
         marketType: MarketType.PERP,
-      })
+      });
 
-      setStatus(`✅ ${directionText} position opened! TX: ${txSig.slice(0, 8)}...`)
-      
-      // Clear form
-      setAmount('')
-      
-      // Clear success message after delay
-      setTimeout(() => setStatus(''), 5000)
+      setStatus(`✅ ${directionText} position opened! TX: ${txSig.slice(0, 8)}...`);
+      setAmount('');
+      setTimeout(() => setStatus(''), 5000);
     } catch (error) {
-      console.error('Error opening position:', error)
-      setStatus(`❌ Error: ${error instanceof Error ? error.message : 'Failed to open position'}`)
+      console.error('Error opening position:', error);
+      setStatus(`❌ Error: ${error instanceof Error ? error.message : 'Failed to open position'}`);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="card bg-base-100 shadow-xl">
@@ -148,12 +74,11 @@ function TradePanel() {
           </div>
         ) : (
           <>
-            {/* Market Selection */}
             <div className="form-control w-full">
               <label className="label">
                 <span className="label-text">Select Market</span>
               </label>
-              <select 
+              <select
                 className="select select-bordered w-full"
                 value={selectedMarket}
                 onChange={(e) => setSelectedMarket(parseInt(e.target.value))}
@@ -166,7 +91,6 @@ function TradePanel() {
               </select>
             </div>
 
-            {/* Amount Input */}
             <div className="form-control w-full">
               <label className="label">
                 <span className="label-text">Amount (USDC)</span>
@@ -182,7 +106,6 @@ function TradePanel() {
               />
             </div>
 
-            {/* Leverage Slider */}
             <div className="form-control w-full">
               <label className="label">
                 <span className="label-text">Leverage: {leverage}x</span>
@@ -203,7 +126,6 @@ function TradePanel() {
               </div>
             </div>
 
-            {/* Trade Buttons */}
             <div className="grid grid-cols-2 gap-4 mt-6">
               <button
                 className="btn btn-success btn-lg"
@@ -229,14 +151,12 @@ function TradePanel() {
               </button>
             </div>
 
-            {/* Status Message */}
-            {status && (
-              <div className={`alert ${status.includes('❌') ? 'alert-error' : status.includes('✅') ? 'alert-success' : 'alert-info'} mt-4`}>
-                <span>{status}</span>
+            {(status || appStatus) && (
+              <div className={`alert ${status.includes('❌') || appStatus.includes('❌') ? 'alert-error' : status.includes('✅') || appStatus.includes('✅') ? 'alert-success' : 'alert-info'} mt-4`}>
+                <span>{status || appStatus}</span>
               </div>
             )}
 
-            {/* Position Info */}
             {amount && leverage && (
               <div className="stats shadow mt-4">
                 <div className="stat">
@@ -254,7 +174,7 @@ function TradePanel() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default TradePanel
+export default TradePanel;
