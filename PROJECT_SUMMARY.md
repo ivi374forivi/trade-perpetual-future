@@ -1,8 +1,19 @@
 # 📊 Project Summary - Bang Perp Exchange
 
-## 🎯 Mission Accomplished!
+## 🎯 Mission & Vision
 
 A complete, production-ready, non-custodial perpetual futures trading platform on Solana has been successfully implemented.
+
+### 📍 Reference Implementation
+
+Bang Perp Exchange is aligned with **[spark/4444JPP/perpetual-future](https://github.com/spark/4444JPP/perpetual-future)** as our **reference implementation and target state**. This alignment:
+
+- Provides clear direction for architectural decisions
+- Defines our feature development roadmap
+- Sets quality and design standards
+- Ensures consistency with proven patterns
+
+See [ROADMAP.md](./ROADMAP.md) for our complete alignment strategy, gap analysis, and development timeline.
 
 ## 🏆 What We Built
 
@@ -256,6 +267,20 @@ All documentation includes:
 - Secure blockchain integration
 - Professional documentation
 - Real-world DeFi application
+
+### Evolution Path
+
+The project is actively evolving towards full alignment with our reference implementation ([spark/4444JPP/perpetual-future](https://github.com/spark/4444JPP/perpetual-future)). Current progress:
+
+- ✅ Core Infrastructure: 90%
+- ⚠️ Trading Features: 40%
+- ⚠️ Portfolio Management: 10%
+- ❌ Advanced Features: 5%
+- **Overall Alignment: ~35%**
+
+See [ROADMAP.md](./ROADMAP.md) for detailed gap analysis and development timeline.
+
+### Current Readiness
 
 The project is ready for:
 1. ✅ Immediate deployment to Devnet

@@ -168,6 +168,7 @@ npm run build
 
 ### Learn More
 - Read the full [README.md](./README.md)
+- Review [ROADMAP.md](./ROADMAP.md) for project vision and development timeline
 - Check [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for production
 - Review [CONTRIBUTING.md](./CONTRIBUTING.md) to contribute
 

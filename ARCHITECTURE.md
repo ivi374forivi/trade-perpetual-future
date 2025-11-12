@@ -1,6 +1,19 @@
 # 🏗️ Technical Architecture - Bang Perp Exchange
 
+## 📋 Overview & Target State
+
 This document provides a detailed technical overview of the Bang Perp Exchange architecture.
+
+### Reference Implementation
+
+Our architecture is evolving towards the design patterns and capabilities demonstrated in **[spark/4444JPP/perpetual-future](https://github.com/spark/4444JPP/perpetual-future)**, which serves as our **reference implementation**. This ensures:
+
+- Consistent architectural patterns across components
+- Alignment with proven best practices
+- Clear evolution path for future development
+- Standards for code quality and design
+
+For our complete alignment strategy and gap analysis, see [ROADMAP.md](./ROADMAP.md).
 
 ## 📋 Table of Contents
 
@@ -458,12 +471,16 @@ RPC Monitoring: Custom
 
 ### Planned Enhancements
 
+The following enhancements align with patterns from our reference implementation ([spark/4444JPP/perpetual-future](https://github.com/spark/4444JPP/perpetual-future)):
+
 1. **Code Splitting**: Reduce initial bundle size
 2. **Service Worker**: Offline support
 3. **WebSocket**: Real-time price updates
 4. **Optimistic UI**: Instant feedback before confirmation
 5. **Account Abstraction**: Gasless transactions
 6. **Multi-chain**: Expand beyond Solana
+
+For detailed alignment roadmap and gap analysis, see [ROADMAP.md](./ROADMAP.md).
 
 ### Scalability Considerations
 

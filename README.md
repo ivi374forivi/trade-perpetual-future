@@ -6,6 +6,18 @@ None-Custodial perpetual futures trading website on blockchain, powered by Drift
 ![Solana](https://img.shields.io/badge/Solana-Devnet-purple)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+## 🎯 Project Vision & Reference
+
+Bang Perp Exchange is evolving towards a comprehensive perpetual futures trading platform. Our development is guided by the architecture and feature set demonstrated in **[spark/4444JPP/perpetual-future](https://github.com/spark/4444JPP/perpetual-future)**, which serves as our **reference implementation and target state**.
+
+This reference provides:
+- **Architectural guidance** for system design and component structure
+- **Feature roadmap** defining our development priorities
+- **Best practices** for Solana and Drift Protocol integration
+- **Quality standards** we aim to meet or exceed
+
+📍 **See [ROADMAP.md](./ROADMAP.md)** for our complete alignment strategy, gap analysis, and development timeline.
+
 ## 🎯 Features
 
 ### Core Features ✅
@@ -247,7 +259,14 @@ Before deploying to mainnet:
 
 ## 📚 Resources
 
-### Documentation
+### Project Documentation
+- [ROADMAP.md](./ROADMAP.md) - Project vision, alignment strategy, and development timeline
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - Technical architecture details
+- [QUICKSTART.md](./QUICKSTART.md) - 5-minute getting started guide
+- [CONTRIBUTING.md](./CONTRIBUTING.md) - How to contribute
+
+### External Documentation
+- [spark/4444JPP/perpetual-future](https://github.com/spark/4444JPP/perpetual-future) - Reference implementation (target state)
 - [Drift Protocol Docs](https://docs.drift.trade/)
 - [Drift SDK](https://www.npmjs.com/package/@drift-labs/sdk)
 - [Solana Wallet Adapter](https://github.com/solana-labs/wallet-adapter)
