@@ -58,6 +58,22 @@ None-Custodial perpetual futures trading website on blockchain, powered by Drift
 
 **Revenue Model**: Builder Code / Referral system through Drift Protocol (10-15% of trading fees, paid automatically on-chain)
 
+## 🎯 Reference Implementation & Vision
+
+This project follows the canonical architecture and design patterns established in the organization's reference implementation:
+
+**Reference Repository**: [spark/4444JPP/perpetual-future](https://github.com/spark/4444JPP/perpetual-future)
+
+### Key Adopted Standards
+- **Non-Custodial Architecture**: Users maintain full control of their funds
+- **Module Boundaries**: Clean separation between UI, wallet integration, and protocol layers
+- **Security-First Design**: No private key storage, explicit transaction signing
+- **Compliance Framework**: Clear risk warnings, Terms of Service, legal safeguards
+- **Technology Stack**: React + TypeScript + Solana + Drift Protocol SDK
+- **Revenue Model**: Drift Builder Code system for sustainable, compliant earnings
+
+For detailed information about architectural decisions, module organization, and design conventions, see **[Reference Implementation Documentation](./docs/reference-implementation.md)**.
+
 ## 🚀 Quick Start
 
 ### Prerequisites
