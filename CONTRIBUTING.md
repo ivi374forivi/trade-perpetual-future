@@ -2,9 +2,16 @@
 
 Thank you for your interest in contributing to Bang Perp Exchange! This document provides guidelines and instructions for contributing.
 
+## 📚 Quick Links
+
+- **[Code of Conduct](./CODE_OF_CONDUCT.md)** - Community standards and behavior expectations
+- **[Security Policy](./SECURITY.md)** - How to report security vulnerabilities
+- **[Documentation Index](./DOCUMENTATION_INDEX.md)** - Complete guide to all project documentation
+- **[Architecture](./ARCHITECTURE.md)** - Technical architecture overview
+
 ## 🎯 Code of Conduct
 
-Be respectful, inclusive, and professional. We're building something cool together!
+All contributors must follow our [Code of Conduct](./CODE_OF_CONDUCT.md). Be respectful, inclusive, and professional. We're building something cool together!
 
 ## 🚀 Getting Started
 
