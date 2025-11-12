@@ -20,6 +20,9 @@ None-Custodial perpetual futures trading website on blockchain, powered by Drift
 ### 🚀 New Here?
 **Check out the [⚡ QUICKSTART.md](./QUICKSTART.md) for a 5-minute getting started guide!**
 
+### 🌿 Active Development - PR Gardening
+This repository is currently undergoing **pull request gardening** to organize and merge 7 open PRs in a cascading dependency order. See the [PR Gardening Tracker](./PR_GARDENING_TRACKER.md) and [Visual Roadmap](./.github/PR_GARDENING_ROADMAP.md) for details on the merge plan and progress.
+
 ### Upcoming Features 🚧
 - Multiple market pairs expansion
 - Position management (close, modify)
