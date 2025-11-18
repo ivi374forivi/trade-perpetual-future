@@ -2,31 +2,58 @@
 
 None-Custodial perpetual futures trading website on blockchain, powered by Drift Protocol. Users can connect their wallets (Phantom, Solflare) and trade real money through Drift Protocol integration - earning referral fees legally without custodying funds.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-2.0.0-blue)
 ![Solana](https://img.shields.io/badge/Solana-Devnet-purple)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-Production%20Ready-success)
 
 ## 🎯 Features
 
-### Core Features ✅
-- **Solana Wallet Connection** - Support for Phantom and Solflare wallets
-- **Real-Time Perp Trading** - Trade SOL-PERP, BTC-PERP, ETH-PERP markets
-- **Long/Short Positions** - Open leveraged positions (1x-10x)
-- **Drift Protocol Integration** - All trades executed through Drift smart contracts
-- **Non-Custodial Architecture** - Users control their funds and sign all transactions
-- **Meme-Style UI** - Fun, engaging interface with DaisyUI dark theme
-- **Risk Warnings** - Clear Terms of Service and trading risk disclosures
+### 🚀 **NEW v2.0 - Professional Trading Platform!**
 
-### 🚀 New Here?
-**Check out the [⚡ QUICKSTART.md](./QUICKSTART.md) for a 5-minute getting started guide!**
+Bang Perp Exchange has been upgraded to a comprehensive professional trading platform with advanced features:
+
+### Core Features ✅
+- **🔐 Solana Wallet Connection** - Support for Phantom and Solflare wallets
+- **📊 Advanced Order Types** - Market, Limit, and Stop Market orders
+- **⚡ Real-Time Market Data** - Live oracle prices, bid/ask updates every 2 seconds
+- **📈 Position Management** - View and close positions with one click
+- **📋 Order History** - Complete order tracking with status filtering
+- **💰 P&L Analytics** - Comprehensive performance tracking and analytics
+- **🎯 Tab Navigation** - Intuitive interface: Trade | Positions | Orders | Analytics
+- **💼 Account Dashboard** - Real-time collateral, PNL, and leverage tracking
+- **🌐 Multi-Market Support** - SOL-PERP, BTC-PERP, ETH-PERP
+- **📊 1x-10x Leverage** - Flexible leverage control with visual slider
+- **🔒 Non-Custodial** - You control your funds and sign all transactions
+- **🎨 Professional UI** - Clean, modern interface with DaisyUI dark theme
+- **⚠️ Risk Warnings** - Clear Terms of Service and trading risk disclosures
+
+### 🆕 What's New in v2.0
+- ✅ **Limit Orders** - Set your desired entry/exit price
+- ✅ **Stop Market Orders** - Automated risk management with trigger prices
+- ✅ **Real-Time Prices** - Live oracle, bid, and ask prices
+- ✅ **Position Panel** - View all positions and close with one click
+- ✅ **Order History** - Track all orders with filtering (open/filled/cancelled)
+- ✅ **P&L Analytics** - Comprehensive performance dashboard
+- ✅ **Tab Navigation** - Easy switching between Trade, Positions, Orders, Analytics
+- ✅ **Dashboard Stats** - Real-time account statistics display
+- ✅ **Auto-Refresh** - All data updates automatically
+
+### 📚 Documentation
+- **[⚡ QUICKSTART.md](./QUICKSTART.md)** - 5-minute getting started guide
+- **[🚀 FEATURES.md](./FEATURES.md)** - Complete feature documentation
+- **[🏗️ ARCHITECTURE.md](./ARCHITECTURE.md)** - Technical architecture
+- **[🚢 DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Deployment instructions
 
 ### Upcoming Features 🚧
-- Multiple market pairs expansion
-- Position management (close, modify)
-- Portfolio tracking dashboard
+- TradingView chart integration
+- Historical P&L charts
+- Cancel/modify open orders
+- Advanced order types (OCO, Trailing Stop)
+- Export trade history (CSV)
+- Mobile app (React Native)
+- Social trading features
 - Leaderboard system
-- Advanced charting
-- Mobile responsive design improvements
 
 ## 🏗️ Architecture
 
@@ -301,8 +328,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-**Status**: 🟢 Active Development  
-**Version**: 1.0.0  
-**Last Updated**: 2025-10-30
+**Status**: 🟢 Production Ready
+**Version**: 2.0.0
+**Last Updated**: 2025-11-18
 
 **Built with ❤️ on Solana**
