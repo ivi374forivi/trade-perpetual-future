@@ -1,7 +1,18 @@
 import { useState } from 'react'
 
-function RiskWarning() {
-  const [isExpanded, setIsExpanded] = useState(false)
+interface RiskWarningProps {
+  onAccept: (accepted: boolean) => void
+}
+
+function RiskWarning({ onAccept }: RiskWarningProps) {
+  const [isExpanded, setIsExpanded] = useState(true) // Open by default
+  const [accepted, setAccepted] = useState(false)
+
+  const handleAcceptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isAccepted = e.target.checked
+    setAccepted(isAccepted)
+    onAccept(isAccepted)
+  }
 
   return (
     <div className="collapse collapse-arrow bg-warning text-warning-content mb-8">
@@ -11,7 +22,7 @@ function RiskWarning() {
         onChange={() => setIsExpanded(!isExpanded)}
       />
       <div className="collapse-title text-xl font-medium">
-        ⚠️ IMPORTANT: Risk Warning & Terms of Service
+        ⚠️ IMPORTANT: Risk Warning & Terms of Service (READ BEFORE TRADING)
       </div>
       <div className="collapse-content">
         <div className="space-y-4 text-sm">
@@ -63,6 +74,31 @@ function RiskWarning() {
               ⚠️ PROCEED ONLY IF YOU UNDERSTAND AND ACCEPT THESE RISKS ⚠️
             </p>
           </div>
+
+          {/* Explicit Acceptance Checkbox */}
+          <div className="form-control mt-6 border-t-2 border-base-100 pt-4">
+            <label className="label cursor-pointer justify-start gap-4">
+              <input
+                type="checkbox"
+                checked={accepted}
+                onChange={handleAcceptChange}
+                className="checkbox checkbox-error checkbox-lg"
+              />
+              <span className="label-text font-bold text-base">
+                I have read and understand the risks above, and I accept the Terms of Service.
+                I acknowledge that I may lose all of my funds.
+              </span>
+            </label>
+          </div>
+
+          {!accepted && (
+            <div className="alert alert-error mt-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>⚠️ You must accept the terms before trading</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

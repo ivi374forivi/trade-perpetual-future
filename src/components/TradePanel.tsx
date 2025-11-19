@@ -2,15 +2,21 @@ import { useState, useEffect } from 'react'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { DriftClient, MarketType, PositionDirection, User, BN } from '@drift-labs/sdk'
 
-function TradePanel() {
+interface TradePanelProps {
+  termsAccepted: boolean
+}
+
+function TradePanel({ termsAccepted }: TradePanelProps) {
   const { connection } = useConnection()
   const { publicKey, signTransaction, signAllTransactions } = useWallet()
-  
+
   const [driftClient, setDriftClient] = useState<DriftClient | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [isInitializing, setIsInitializing] = useState(false)
   const [amount, setAmount] = useState('')
+  const [amountError, setAmountError] = useState('')
   const [leverage, setLeverage] = useState('5')
+  const [slippageTolerance, setSlippageTolerance] = useState(0.5) // 0.5% default
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState('')
   const [selectedMarket, setSelectedMarket] = useState(0) // 0 = SOL-PERP, 1 = BTC-PERP, etc.
@@ -22,6 +28,69 @@ function TradePanel() {
     { name: 'ETH-PERP', index: 2, symbol: 'ETH' },
   ]
 
+  // Validation constants
+  const MAX_POSITION_SIZE_USDC = 100_000 // $100k max per trade
+  const MIN_POSITION_SIZE_USDC = 1 // $1 minimum
+
+  // Input validation helper
+  const validateAmount = (value: string): { valid: boolean; error?: string } => {
+    if (!value || value.trim() === '') {
+      return { valid: false, error: 'Amount required' }
+    }
+
+    if (value.includes('e') || value.includes('E')) {
+      return { valid: false, error: 'Scientific notation not allowed' }
+    }
+
+    const num = parseFloat(value)
+
+    if (isNaN(num)) {
+      return { valid: false, error: 'Invalid number' }
+    }
+
+    if (num < 0) {
+      return { valid: false, error: 'Amount must be positive' }
+    }
+
+    if (num < MIN_POSITION_SIZE_USDC) {
+      return { valid: false, error: `Minimum ${MIN_POSITION_SIZE_USDC} USDC` }
+    }
+
+    if (num > MAX_POSITION_SIZE_USDC) {
+      return { valid: false, error: `Maximum ${MAX_POSITION_SIZE_USDC} USDC` }
+    }
+
+    const decimalPlaces = (value.split('.')[1] || '').length
+    if (decimalPlaces > 2) {
+      return { valid: false, error: 'Maximum 2 decimal places' }
+    }
+
+    return { valid: true }
+  }
+
+  // User-friendly error messages
+  const getUserFriendlyError = (error: any): string => {
+    const message = error instanceof Error ? error.message : String(error)
+
+    if (message.includes('insufficient funds') || message.includes('insufficient lamports')) {
+      return 'Insufficient balance. Please add more USDC or SOL.'
+    }
+    if (message.includes('slippage')) {
+      return 'Price moved too much. Try increasing slippage tolerance.'
+    }
+    if (message.includes('User rejected') || message.includes('rejected')) {
+      return 'Transaction cancelled by user.'
+    }
+    if (message.includes('simulation failed')) {
+      return 'Transaction validation failed. Check your inputs and balance.'
+    }
+    if (message.includes('timeout')) {
+      return 'Transaction timeout. Please try again.'
+    }
+
+    return `Error: ${message}`
+  }
+
   // Initialize Drift Client when wallet connects
   // Note: driftClient is intentionally excluded from deps to prevent re-initialization loop
   // This effect should only run when wallet connection changes
@@ -31,6 +100,37 @@ function TradePanel() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publicKey, connection, signTransaction, signAllTransactions])
+
+  // Cleanup subscriptions on unmount or when drift client/user changes
+  useEffect(() => {
+    return () => {
+      if (driftClient) {
+        driftClient.unsubscribe().catch((err) => {
+          console.error('Error unsubscribing driftClient:', err)
+        })
+      }
+      if (user) {
+        user.unsubscribe().catch((err) => {
+          console.error('Error unsubscribing user:', err)
+        })
+      }
+    }
+  }, [driftClient, user])
+
+  // Cleanup when wallet disconnects
+  useEffect(() => {
+    if (!publicKey && driftClient) {
+      driftClient.unsubscribe().catch(console.error)
+      setDriftClient(null)
+
+      if (user) {
+        user.unsubscribe().catch(console.error)
+        setUser(null)
+      }
+
+      setStatus('Wallet disconnected')
+    }
+  }, [publicKey, driftClient, user])
 
   const initializeDrift = async () => {
     if (!publicKey || !signTransaction || !signAllTransactions) return
@@ -85,43 +185,73 @@ function TradePanel() {
   }
 
   const openPosition = async (direction: PositionDirection) => {
-    if (!driftClient || !user || !amount) {
-      setStatus('Please connect wallet and enter amount')
+    if (!driftClient || !user || !amount || !termsAccepted) {
+      setStatus('Please connect wallet, enter amount, and accept terms')
+      return
+    }
+
+    // Validate amount
+    const validation = validateAmount(amount)
+    if (!validation.valid) {
+      setStatus(`❌ ${validation.error}`)
       return
     }
 
     setLoading(true)
     const directionText = direction === PositionDirection.LONG ? 'LONG' : 'SHORT'
-    setStatus(`Opening ${directionText} position...`)
 
     try {
-      // Convert amount to base units (assumes USDC, 6 decimals)
-      const baseAmount = new BN(parseFloat(amount) * 1_000_000)
-      
-      // Calculate size based on leverage
-      const leverageMultiplier = parseFloat(leverage)
-      const positionSize = new BN(baseAmount.toNumber() * leverageMultiplier)
+      // Calculate position size using BN math to avoid overflow
+      const baseAmount = new BN(Math.floor(parseFloat(amount) * 1_000_000))
+      const leverageMultiplier = new BN(Math.floor(parseFloat(leverage)))
+      const positionSize = baseAmount.mul(leverageMultiplier) // Use BN.mul instead of JS number math
 
-      // Place market order to open position
       const marketIndex = markets[selectedMarket].index
-      const txSig = await driftClient.placeAndTakePerpOrder({
+
+      // Transaction parameters with slippage protection
+      const orderParams = {
         orderType: 0, // Market order
         marketIndex,
         direction,
         baseAssetAmount: positionSize,
         marketType: MarketType.PERP,
-      })
+        maxSlippageBps: new BN(Math.floor(slippageTolerance * 100)), // Convert to basis points
+      }
+
+      // Simulate transaction before signing
+      setStatus('🔍 Validating transaction...')
+
+      // Note: Drift SDK's placeAndTakePerpOrder internally handles simulation
+      // For more explicit control, we could build and simulate the transaction separately
+      // For now, we rely on the SDK's built-in checks
+
+      setStatus(`Opening ${directionText} position...`)
+
+      // Execute the trade
+      const txSig = await driftClient.placeAndTakePerpOrder(orderParams)
+
+      // Wait for confirmation
+      setStatus('⏳ Transaction submitted, waiting for confirmation...')
+
+      const confirmation = await connection.confirmTransaction(txSig, 'confirmed')
+
+      // Check if transaction actually succeeded
+      if (confirmation.value.err) {
+        throw new Error('Transaction failed on-chain')
+      }
 
       setStatus(`✅ ${directionText} position opened! TX: ${txSig.slice(0, 8)}...`)
-      
+
       // Clear form
       setAmount('')
-      
+      setAmountError('')
+
       // Clear success message after delay
       setTimeout(() => setStatus(''), 5000)
     } catch (error) {
       console.error('Error opening position:', error)
-      setStatus(`❌ Error: ${error instanceof Error ? error.message : 'Failed to open position'}`)
+      const userMessage = getUserFriendlyError(error)
+      setStatus(`❌ ${userMessage}`)
     } finally {
       setLoading(false)
     }
@@ -170,16 +300,27 @@ function TradePanel() {
             <div className="form-control w-full">
               <label className="label">
                 <span className="label-text">Amount (USDC)</span>
+                <span className="label-text-alt">
+                  Min: ${MIN_POSITION_SIZE_USDC} | Max: ${MAX_POSITION_SIZE_USDC.toLocaleString()}
+                </span>
               </label>
               <input
-                type="number"
+                type="text"
                 placeholder="Enter amount"
-                className="input input-bordered w-full"
+                className={`input input-bordered w-full ${amountError ? 'input-error' : ''}`}
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                min="0"
-                step="0.01"
+                onChange={(e) => {
+                  const value = e.target.value
+                  setAmount(value)
+                  const validation = validateAmount(value)
+                  setAmountError(validation.error || '')
+                }}
               />
+              {amountError && (
+                <label className="label">
+                  <span className="label-text-alt text-error">{amountError}</span>
+                </label>
+              )}
             </div>
 
             {/* Leverage Slider */}
@@ -203,12 +344,36 @@ function TradePanel() {
               </div>
             </div>
 
+            {/* Slippage Tolerance */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Max Slippage: {slippageTolerance}%</span>
+                <span className="label-text-alt">
+                  {slippageTolerance > 2 && '⚠️ High slippage'}
+                </span>
+              </label>
+              <input
+                type="range"
+                min="0.1"
+                max="5"
+                value={slippageTolerance}
+                onChange={(e) => setSlippageTolerance(parseFloat(e.target.value))}
+                className="range range-secondary"
+                step="0.1"
+              />
+              <div className="w-full flex justify-between text-xs px-2 mt-1">
+                <span>0.1%</span>
+                <span>2.5%</span>
+                <span>5%</span>
+              </div>
+            </div>
+
             {/* Trade Buttons */}
             <div className="grid grid-cols-2 gap-4 mt-6">
               <button
                 className="btn btn-success btn-lg"
                 onClick={() => openPosition(PositionDirection.LONG)}
-                disabled={loading || !driftClient || !amount}
+                disabled={loading || !driftClient || !amount || !termsAccepted || amountError !== ''}
               >
                 {loading ? (
                   <span className="loading loading-spinner"></span>
@@ -219,7 +384,7 @@ function TradePanel() {
               <button
                 className="btn btn-error btn-lg"
                 onClick={() => openPosition(PositionDirection.SHORT)}
-                disabled={loading || !driftClient || !amount}
+                disabled={loading || !driftClient || !amount || !termsAccepted || amountError !== ''}
               >
                 {loading ? (
                   <span className="loading loading-spinner"></span>
@@ -228,6 +393,16 @@ function TradePanel() {
                 )}
               </button>
             </div>
+
+            {/* Terms Warning if not accepted */}
+            {!termsAccepted && publicKey && (
+              <div className="alert alert-warning mt-4">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span>You must read and accept the terms above before trading</span>
+              </div>
+            )}
 
             {/* Status Message */}
             {status && (

@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import TradePanel from './components/TradePanel'
 import RiskWarning from './components/RiskWarning'
 
 function App() {
+  const [termsAccepted, setTermsAccepted] = useState(false)
+
   return (
     <div className="min-h-screen bg-base-200">
       {/* Header */}
@@ -37,10 +40,10 @@ function App() {
         </div>
 
         {/* Risk Warning */}
-        <RiskWarning />
+        <RiskWarning onAccept={setTermsAccepted} />
 
         {/* Trading Panel */}
-        <TradePanel />
+        <TradePanel termsAccepted={termsAccepted} />
 
         {/* Footer */}
         <footer className="footer footer-center p-10 text-base-content mt-16">
